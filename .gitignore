@@ -1,0 +1,14 @@
+# ignore node_modules folder
+node_modules/
+
+# ignore .env
+*.env
+
+# ignore jshint
+.jshint*
+
+# ignore sonarlint
+.sonarlint/
+
+# ignore logs
+*.log
