@@ -24,7 +24,36 @@ npm install
 to install the dependencies
 
 ```
+cd /Program Files/MongoDB/Server/4.0/bin
+
+mongod.exe --dbpath /mongo-data 
+```
+
+to start mongodb database server
+
+```
 npm run dev 
 ```
 
 to run the project in development mode
+
+```
+npm run app 
+```
+
+to run app
+
+```
+Open postman app and set request as *** POST *** and route as *** localhost:3000/users/sign-up ***
+to create a user account;
+
+{
+	"username": "fooBeezy",
+	"password": "f00b@r",
+	"email": "foo@bar.gmail"
+} 
+```
+
+to sign up
+
+
