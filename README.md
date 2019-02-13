@@ -10,9 +10,13 @@ In this project we are going to build a simple application that allows a user to
 
 ### Technologies
 We are going to use the following in this application
-1. MongoDB for the database (could be local or cloud-based)
-2. Json Web Tokens (JWT) for authentication
-3. Log4js for logging, all the output should be saved in the server.log file on the local machine
+1. MongoDB: database (could be local or cloud-based)
+2. Json Web Tokens (JWT): For authentication
+3. winston: For logging, all the output should be saved in the server.log file on the local machine
+4. Express: For web server
+5. lodash: To pick specific items from user input
+6. Validator: To create a custom validation in mongoose model
+7. Mongoose: Wrap around MongoDB for ease of use
 
 ### Running the Application
 After cloning this project run the following commands to get started:
@@ -47,10 +51,13 @@ to run app
 Open postman app and set request as *** POST *** and route as *** localhost:3000/users/sign-up ***
 to create a user account;
 
+Select *** Body *** below and select *** raw *** then set type to *** JSON (application/json) ***
+
+example:
 {
 	"username": "fooBeezy",
 	"password": "f00b@r",
-	"email": "foo@bar.gmail"
+	"email": "foobar@gmail.com"
 } 
 ```
 
