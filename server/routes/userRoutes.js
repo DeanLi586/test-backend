@@ -1,6 +1,7 @@
 const express =  require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
+const jwt = require("jsonwebtoken");
 
 const { User } = require("../models/user");
 const { Book } = require("../models/books");
@@ -21,8 +22,10 @@ const router = express.Router();
 router.post('/users/sign-up', (req, res) => {
     // logger.info(req.body);
     let body = _.pick(req.body, ['email', 'password', 'username']);
-    let user = new User(body);
+    let salt = 'm[c0j9[4fiej[8hcWE';
+    body.password = jwt.sign(body.password, salt);
 
+    let user = new User(body);
     user.save().then(() => { 
         return user.generateAuthToken();
     }).then((token) => {
@@ -70,8 +73,8 @@ router.post('/users/login', (req, res) => {
     });
     
     // POST: Book change
-    router.post('/users/change-book', (req, res) => {
-        User.find({email: req.body.email}).then((doc) => {
+    router.patch('/users/change-book', (req, res) => {
+        User.findByToken(req.header('x-auth')).then((doc) => {
             if (doc[0] !== undefined) {
                 return Book.findOneAndUpdate(
                     {
