@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {logger} = require("../logger");
+const { logger } = require("../logger");
 
 // Enable use of promises in mongoose
 mongoose.Promise = global.Promise;
