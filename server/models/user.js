@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require('jsonwebtoken');
+const _ = require("lodash");
 
-// Create "USER" model
-const User = mongoose.model("User", {
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         trim: true,
@@ -14,16 +15,46 @@ const User = mongoose.model("User", {
         required: true,
         minLength: 1,
         validate: {
-            validator: (value) => {
-                return validator.isEmail(value);
-            }
+            validator: (value) => validator.isEmail(value),
+            message: '{VALUE} is not a valid email'
         }
     },
     password: {
         type: String,
         required: true,
         minLength: 5
-    }
-});
+    },
+    tokens: [{
+        access: {
+            type: String,
+            required: true
+        },
+        token: {
+            type: String,
+            required: true
+        }
+    }]
+})
+
+// override the return object of mongoose
+userSchema.methods.toJSON = function() {
+    let user = this;
+    let userObj = user.toObject();
+    return _.pick(userObj, ['_id', 'email', 'username']);
+}
+
+// create 'generate authentication token' instance method
+userSchema.methods.generateAuthToken = function() {
+    let salt = 'vodcmo;ei09j042@#m/ec[09j2**fcc8b494880d1e7a139380a4828f845e311c21d9c93f77700b173f4589f75ad1f1';
+    let user = this;
+    let access = 'auth';
+    let token = jwt.sign({id: user._id.toHexString(), access}, salt).toString();
+    user.tokens = user.tokens.concat([{access, token}]);
+
+    return user.save().then(() => token);
+};
+
+// Create "USER" model
+const User = mongoose.model("User", userSchema);
 
 module.exports = { User };
