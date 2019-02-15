@@ -5,7 +5,7 @@ const { mongoose } = require("./db/mongoose");
 const {logger} = require("./logger");
 const userRoutes = require("./routes/userRoutes")
 
-const port = 3000 || process.env.PORT
+const port = 3000 || process.env.PORT;
 const app = express();
 
 app.use(bodyParser.json());

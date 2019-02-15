@@ -54,7 +54,6 @@ router.post('/users/login', (req, res) => {
 });
 
 
-// POST: User account modification {
     // POST: Password change
     router.post('/users/change-password', (req, res) => {
         // Setting new password
@@ -92,9 +91,6 @@ router.post('/users/login', (req, res) => {
             logger.error("User email not found");
         });  
     })
-// }
-
-
 
 // POST: User adds book
 router.post('/books/add', (req, res) => {
