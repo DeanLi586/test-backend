@@ -53,7 +53,6 @@ router.post('/users/login', (req, res) => {
 });
 
 
-// POST: User account modification {
     // POST: Password change
     router.patch('/users/change-password', (req, res) => {
         try {
@@ -108,9 +107,6 @@ router.post('/users/login', (req, res) => {
             logger.error("Authentication to change book title failed");
         });  
     })
-// }
-
-
 
 // POST: User adds book
 router.post('/books/add', (req, res) => {
