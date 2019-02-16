@@ -61,9 +61,10 @@ userSchema.statics.findByToken = function(token) {
     let decoded;
     try {
         decoded = jwt.verify(token, salt);
+        // console.log(decoded);
         return User.findOne({
-            _id: decoded._id,
-            "tokens.token": decoded.token,
+            _id: decoded.id,
+            // "tokens.token": decoded.token,
             "tokens.access": "auth",
         })
     } catch(err) {
