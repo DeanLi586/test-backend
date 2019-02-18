@@ -41,7 +41,7 @@ userSchema.methods.toJSON = function() {
     let user = this;
     let userObj = user.toObject();
     return _.pick(userObj, ['_id', 'email', 'username']);
-}
+};
 
 // create 'generate authentication token' instance method
 userSchema.methods.generateAuthToken = function() {
@@ -66,11 +66,11 @@ userSchema.statics.findByToken = function(token) {
             _id: decoded.id,
             // "tokens.token": decoded.token,
             "tokens.access": "auth",
-        })
+        });
     } catch(err) {
 
     }
-}
+};
 
 // Create "USER" model
 const User = mongoose.model("User", userSchema);
