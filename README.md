@@ -64,3 +64,18 @@ example:
 to sign up
 
 
+```
+Open postman app and set request as *** PATCH *** and route as *** localhost:3000/users/change-book ***, also set header with key as *** x-auth *** and retrieve token from user collection in db and set as value to change a saved book's title;
+
+Select *** Body *** below and select *** raw *** then set type to *** JSON (application/json) ***
+
+example:
+{
+	"title": "A series of unfortunate events",
+	"newTitle": "Game of thrones"
+} 
+```
+
+to change book
+
+

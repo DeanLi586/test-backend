@@ -5,12 +5,12 @@ const { logger } = require("../logger");
 mongoose.Promise = global.Promise;
 
 // Connect to Pescedi database, created if nonexistent 
-mongoose.connect("mongodb://localhost:27017/Pescedi", {useNewUrlParser: true})
-.then(() => {
-    logger.info("connected to database");
-}).catch((err) => {
-    logger.error(err);
-});
+try {
+    mongoose.connect("mongodb://localhost:27017/Pescedi", {useNewUrlParser: true});
+    logger.info('Successfully connected to database server');
+} catch(err) {
+    logger.info(err);
+}
 
 // Export mongoose 
 module.exports = { mongoose };

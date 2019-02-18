@@ -12,14 +12,13 @@ const router = express.Router();
 //     error: 0, 
 //     warn: 1, 
 //     info: 2, 
-//     verbose: 3, 
+//     verbose: 3,  
 //     debug: 4, 
 //     silly: 5 
 // };
 
 // POST: User account creation
 router.post('/users/sign-up', (req, res) => {
-    // logger.info(req.body);
     let body = _.pick(req.body, ['email', 'password', 'username']);
     let salt = 'm[c0j9[4fiej[8hcWE';
     body.password = jwt.sign(body.password, salt);
@@ -37,7 +36,7 @@ router.post('/users/sign-up', (req, res) => {
 });
 
 
-// POST: User login
+// POST: User login --not-done
 router.post('/users/login', (req, res) => {
     User.find({
             email: req.body.email,
@@ -56,23 +55,43 @@ router.post('/users/login', (req, res) => {
 });
 
 
-// POST: Password change
-router.post('/users/change-password', (req, res) => {
-    // Setting new password
-    User.findOneAndUpdate({
-        email: req.body.email,
-        password: req.body.password
-    }, {
-        password: req.body.newPassword
-    }).then((doc) => {
-        res.status(200).send("Password reset successful");
-        logger.info("Password reset successful");
-    }).catch((err) => {
-        logger.error(err);
-        res.status(500).send("Unable to change password. Please try again later");
-    });
-});
 
+
+
+
+
+    // POST: Password change
+    router.put('/users/change-password', (req, res) => {
+        try {
+            User.findByToken(req.header('x-auth'))
+            .then((doc) => {
+                let salt = 'm[c0j9[4fiej[8hcWE';
+                // let newPassword = jwt.sign(req.body.newPassword, salt);
+                req.body.password = jwt.sign(req.body.password, salt);
+
+                if (doc !== null) {
+                    return User.findOneAndUpdate(
+                        {
+                            email: doc.email,
+                            password: req.body.password
+                        }, 
+                        {
+                            password: jwt.sign(req.body.newPassword, salt)
+                        }
+                    ).then(() => {
+                        res.status(200).send("Password changed successful");
+                        logger.info("Password changed successful");
+                    })
+                }
+            });
+        } catch {
+            res.status(401).send("Authentication required!!");
+            logger.error("Authentication to change password failed");
+        }   
+    })
+    
+ 
+    
 // POST: Book change
 router.put('/users/change-book', (req, res) => {
     User.findByToken(req.header('x-auth')).then((doc) => {
@@ -92,6 +111,7 @@ router.put('/users/change-book', (req, res) => {
         logger.error("User email not found");
     });
 });
+
 
 // POST: User adds book
 router.post('/books/add', (req, res) => {
