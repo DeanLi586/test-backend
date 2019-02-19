@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
-})
+});
 
 // override the return object of mongoose
 userSchema.methods.toJSON = function() {
